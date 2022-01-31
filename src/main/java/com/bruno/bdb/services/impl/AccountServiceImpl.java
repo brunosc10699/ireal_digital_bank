@@ -33,7 +33,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional(readOnly = true)
     public Account findById(String account) {
-        String accountNumber = account.substring(0, account.length() - 2);
+        String[] accountArray = account.split("-");
+        Long accountNumber = Long.parseLong(accountArray[0]);
         return accountRepository.findById(accountNumber)
                 .orElseThrow(() -> new ObjectNotFoundException("This account '" + accountNumber + "' does not exist."));
     }
@@ -42,11 +43,6 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     public Account updateBalance(Account account) {
         return accountRepository.save(account);
-    }
-
-    @Override
-    public Account getById(String account) {
-        return accountRepository.getById(account);
     }
 
     private Account getNewAccount(Holder holder, String password) {
@@ -79,12 +75,12 @@ public class AccountServiceImpl implements AccountService {
      * @param cpf holder identifier
      * @return String
      */
-    private String generateCheckDigit(String cpf) {
+    private Integer generateCheckDigit(String cpf) {
         int checkDigit = 0;
         for (int i = 0; i < cpf.length(); i++) {
             checkDigit += Integer.parseInt(cpf.substring(i, i + 1));
         }
-        return String.valueOf(checkDigit / cpf.length());
+        return checkDigit / cpf.length();
     }
 
     private Card getNewCard(Account account) {

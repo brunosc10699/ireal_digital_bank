@@ -11,8 +11,6 @@ public interface AccountService {
 
     Account findById(String accountNumber);
 
-    Account getById(String accountNumber);
-
     Account updateBalance(Account account);
 
     public static SpringSecurityAccount getAuthenticated() {

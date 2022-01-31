@@ -18,7 +18,7 @@ public class Card implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
+    private Long id;
 
     @Column(nullable = false, length = 16, unique = true)
     private String number;

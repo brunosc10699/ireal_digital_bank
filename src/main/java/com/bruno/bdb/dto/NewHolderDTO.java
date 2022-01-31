@@ -3,6 +3,7 @@ package com.bruno.bdb.dto;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -28,9 +29,13 @@ public class NewHolderDTO implements Serializable {
     @Length(message = "First name characters are limited", min = 2, max = 20)
     private String surName;
 
+    @NotNull(message = "Enter your best email")
+    @Email(message = "Enter your best email")
     private String email;
 
+    @NotNull(message = "Enter a secure password")
     private String accountPassword;
 
+    @NotNull(message = "Enter your monthly income")
     private BigDecimal income;
 }

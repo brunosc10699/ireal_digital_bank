@@ -80,7 +80,7 @@ public class TransactionServiceImpl implements TransactionService {
     private Account checkAuthentication() {
         SpringSecurityAccount springSecurityAccount = AccountService.getAuthenticated();
         if (springSecurityAccount == null) {
-            log.info("Attempt to make a payment without been authenticated.");
+            log.info("Attempt to make a transaction without been authenticated.");
             throw new AuthorizationException("Forbidden");
         }
         return Account.builder()
@@ -107,7 +107,7 @@ public class TransactionServiceImpl implements TransactionService {
             log.warn(
                     "Database violation! Attempt to withdraw with a card number not yet sent. " +
                     "Card number: '" + withdrawDTO.getCardNumber() + "'. " +
-                    "Terminal id: '" + withdrawDTO.getTerminalId()
+                    "Terminal id: '" + withdrawDTO.getTerminalId() + "'."
             );
         }
         if (card.getStatus() != CardStatus.ACTIVE.getCode()) {

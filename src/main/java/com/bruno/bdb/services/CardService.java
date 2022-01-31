@@ -9,11 +9,11 @@ public interface CardService {
 
     Card findByNumber(String cardNumber);
 
-    Card findById(String cardId);
+    Card findById(Long cardId);
 
     void activate();
 
     void receiptConfirmation();
 
-    void sendCard(String cardId);
+    void sendCard(Long cardId);
 }

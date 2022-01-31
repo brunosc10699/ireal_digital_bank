@@ -22,8 +22,5 @@ public class Withdraw extends Transaction {
     private static final long serialVersionUID = 1L;
 
     @Column(nullable = false, updatable = false)
-    private Integer status;
-
-    @Column(nullable = false, updatable = false)
     private String terminalId;
 }

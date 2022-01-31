@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -29,8 +30,10 @@ public abstract class TransactionDTO implements Serializable {
     @Min(message = "Transaction amount must be IR$ 1.00 at least", value = 1)
     private BigDecimal amount;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime transactionDate;
+
+    private String status;
 
     private AccountDTO accountDTO;
 

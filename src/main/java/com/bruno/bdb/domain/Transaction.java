@@ -35,6 +35,9 @@ public abstract class Transaction implements Serializable {
     @Column(nullable = false, updatable = false)
     private LocalDateTime transactionDate;
 
+    @Column(nullable = false, updatable = false)
+    private Integer status;
+
     @ManyToOne
     @JoinColumn(name = "account_number")
     private Account account;

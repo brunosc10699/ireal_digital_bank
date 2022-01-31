@@ -18,8 +18,8 @@ public class SpringSecurityAccount implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
-    private String id;
-    private String checkDigit;
+    private Long id;
+    private Integer checkDigit;
     private String password;
     private String holderFirstName;
     private BigDecimal balance;
@@ -27,11 +27,11 @@ public class SpringSecurityAccount implements UserDetails {
     private CardStatus cardStatus;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public String getCheckDigit() {
+    public Integer getCheckDigit() {
         return checkDigit;
     }
 

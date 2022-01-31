@@ -23,10 +23,10 @@ public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_number", updatable = false)
-    private String id;
+    private Long id;
 
     @Column(length = 1, updatable = false)
-    private String checkDigit;
+    private Integer checkDigit;
 
     @Column(nullable = false)
     private String password;

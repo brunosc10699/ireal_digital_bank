@@ -47,7 +47,7 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public Card findById(String cardId) {
+    public Card findById(Long cardId) {
         return cardRepository.findById(cardId)
                 .orElseThrow(() -> new ObjectNotFoundException("Invalid card id : '" + cardId + "'"));
     }
@@ -56,7 +56,7 @@ public class CardServiceImpl implements CardService {
     @Transactional
     public void activate() {
         Account account = checkAuthentication();
-        Card card = cardRepository.getById(account.getId());
+        Card card = findById(account.getId());
         if (card.getStatus() != CardStatus.RECEIVED.getCode()) {
             log.info("Attempt to activate card number '" + card.getNumber() + "'. " +
                     "The card status was '" + toEnum(card.getStatus()).getDescription() + "'");
@@ -82,7 +82,7 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public void sendCard(String cardId) {
+    public void sendCard(Long cardId) {
         Card card = findById(cardId);
         card.setStatus(CardStatus.SENT.getCode());
         card.setCvv(encrypt(card.getCvv()));

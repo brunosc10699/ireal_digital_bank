@@ -1,6 +1,7 @@
 package com.bruno.bdb.dto;
 
 import com.bruno.bdb.domain.Transaction;
+import com.bruno.bdb.enums.TransactionStatus;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class PaymentDTO extends TransactionDTO {
                 .transactionDate(transaction.getTransactionDate())
                 .accountDTO(AccountDTO.fromEntity(transaction.getAccount()))
                 .paymentCode(paymentCode)
+                .status(TransactionStatus.toEnum(transaction.getStatus()).getDescription())
                 .build();
     }
 

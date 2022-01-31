@@ -1,6 +1,7 @@
 package com.bruno.bdb.dto;
 
 import com.bruno.bdb.domain.Transaction;
+import com.bruno.bdb.enums.TransactionStatus;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,6 +50,7 @@ public class WithdrawDTO extends TransactionDTO {
                 .amount(transaction.getAmount())
                 .transactionDate(transaction.getTransactionDate())
                 .accountDTO(AccountDTO.fromEntity(transaction.getAccount()))
+                .status(TransactionStatus.toEnum(transaction.getStatus()).getDescription())
                 .terminalId(terminalId)
                 .build();
     }

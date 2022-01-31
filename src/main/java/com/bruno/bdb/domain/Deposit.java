@@ -28,7 +28,4 @@ public class Deposit extends Transaction {
     @Column(nullable = false, updatable = false)
     private String bankingSlipCode;
 
-    @Column(nullable = false, length = 1)
-    private Integer status;
-
 }

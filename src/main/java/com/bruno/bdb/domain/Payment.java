@@ -23,7 +23,4 @@ public class Payment extends Transaction {
 
     @Column(nullable = false, updatable = false)
     private String code;
-
-    @Column(nullable = false, length = 1)
-    private Integer status;
 }

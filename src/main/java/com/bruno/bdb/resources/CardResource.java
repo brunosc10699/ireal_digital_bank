@@ -28,7 +28,7 @@ public class CardResource {
     }
 
     @PostMapping(value = "/send")
-    public ResponseEntity<Void> sendCard(@RequestParam(value = "card") String cardId) {
+    public ResponseEntity<Void> sendCard(@RequestParam(value = "card") Long cardId) {
         cardService.sendCard(cardId);
         return ResponseEntity.noContent().build();
     }
