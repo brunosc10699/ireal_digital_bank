@@ -27,6 +27,8 @@ public class DummyData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        if (Arrays.asList(environment.getActiveProfiles()).contains("test")) {
+
             BranchDTO branchDTO1 = BranchDTO.builder()
                     .name("Porto Alegre")
                     .openingDate(LocalDateTime.now())
@@ -96,8 +98,6 @@ public class DummyData implements CommandLineRunner {
                     .status(Status.ACTIVE.getCode())
                     .build();
             branchService.save(branchDTO10);
-
-        if (Arrays.asList(environment.getActiveProfiles()).contains("test")) {
 
             NewHolderDTO holderDTO = NewHolderDTO.builder()
                     .id("79469840062")

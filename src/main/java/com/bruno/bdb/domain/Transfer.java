@@ -22,12 +22,6 @@ public class Transfer extends Transaction {
     private static final long serialVersionUID = 1L;
 
     @Column(nullable = false, updatable = false)
-    private Integer originatingBranchNumber;
-
-    @Column(nullable = false, updatable = false)
-    private Integer originatingAccountCheckDigit;
-
-    @Column(nullable = false, updatable = false)
     private Integer destinationBranchNumber;
 
     @Column(nullable = false, updatable = false)
@@ -37,6 +31,6 @@ public class Transfer extends Transaction {
     private Integer destinationAccountCheckDigit;
 
     @Column(nullable = false, updatable = false)
-    private String cpf;
+    private String destinationHolderCpf;
 
 }
