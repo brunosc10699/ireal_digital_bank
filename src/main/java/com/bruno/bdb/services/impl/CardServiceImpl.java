@@ -8,12 +8,12 @@ import com.bruno.bdb.repositories.CardRepository;
 import com.bruno.bdb.security.SpringSecurityAccount;
 import com.bruno.bdb.services.AccountService;
 import com.bruno.bdb.services.CardService;
+import com.bruno.bdb.services.JasyptService;
 import com.bruno.bdb.services.exceptions.AuthorizationException;
 import com.bruno.bdb.services.exceptions.CardDataException;
 import com.bruno.bdb.services.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +31,8 @@ import static com.bruno.bdb.enums.CardStatus.toEnum;
 public class CardServiceImpl implements CardService {
 
     private final CardRepository cardRepository;
+
+    private final JasyptService jasyptService;
 
     @Override
     @Transactional
@@ -84,12 +86,13 @@ public class CardServiceImpl implements CardService {
     @Override
     public void sendCard(Long cardId) {
         Card card = findById(cardId);
+        String cardNumber = card.getNumber();
         card.setStatus(CardStatus.SENT.getCode());
-        card.setCvv(encrypt(card.getCvv()));
-        card.setNumber(encrypt(card.getNumber()));
-        card.setPassword(encrypt(card.getPassword()));
+        card.setNumber(card.getNumber());
+        card.setCvv(jasyptService.encrypt(card.getCvv()));
+        card.setPassword(jasyptService.encrypt(card.getPassword()));
         cardRepository.save(card);
-        log.info("Card number '" + card.getNumber() + "' sent");
+        log.info("Card number '" + cardNumber + "' sent");
     }
 
     private Card generateNewCard(Account account) {
@@ -236,10 +239,6 @@ public class CardServiceImpl implements CardService {
                 .balance(springSecurityAccount.getBalance())
                 .status(springSecurityAccount.getAccountStatus().getCode())
                 .build();
-    }
-
-    private String encrypt(String data) {
-        return new BCryptPasswordEncoder().encode(data);
     }
 
 }

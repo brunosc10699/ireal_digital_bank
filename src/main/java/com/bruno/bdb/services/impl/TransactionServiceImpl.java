@@ -11,6 +11,7 @@ import com.bruno.bdb.repositories.TransactionRepository;
 import com.bruno.bdb.security.SpringSecurityAccount;
 import com.bruno.bdb.services.AccountService;
 import com.bruno.bdb.services.CardService;
+import com.bruno.bdb.services.JasyptService;
 import com.bruno.bdb.services.TransactionService;
 import com.bruno.bdb.services.exceptions.AuthorizationException;
 import com.bruno.bdb.services.exceptions.CardDataException;
@@ -18,7 +19,6 @@ import com.bruno.bdb.services.exceptions.InsufficientFundsException;
 import com.bruno.bdb.services.exceptions.InvalidPaymentAmountException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +38,8 @@ public class TransactionServiceImpl implements TransactionService {
     private final AccountService accountService;
 
     private final CardService cardService;
+
+    private final JasyptService jasyptService;
 
     @Override
     @Transactional
@@ -116,11 +118,11 @@ public class TransactionServiceImpl implements TransactionService {
             throw new CardDataException("This card '" + withdrawDTO.getCardNumber() + "' is " + toEnum(card.getStatus()).getDescription());
         }
         if (
-                !encrypt(withdrawDTO.getCardName()).equals(card.getName()) ||
-                !encrypt(withdrawDTO.getExpirationDate()).equals(card.getExpirationDate()) ||
-                !encrypt(withdrawDTO.getCvv()).equals(card.getCvv()) ||
-                !encrypt(withdrawDTO.getCardPassword()).equals(card.getPassword())
-        ) throw new CardDataException("Please, review card details!");
+                !withdrawDTO.getCardName().equals(card.getName()) ||
+                !withdrawDTO.getExpirationDate().equals(card.getExpirationDate()) ||
+                !withdrawDTO.getCvv().equals(jasyptService.decrypt(card.getCvv())) ||
+                !withdrawDTO.getCardPassword().equals(jasyptService.decrypt(card.getPassword()))
+        ) throw new CardDataException("Invalid card details!");
         return card;
     }
 
@@ -129,13 +131,5 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.getAccount().setBalance(transaction.getAccount().getBalance().subtract(transaction.getAmount()));
         accountService.updateBalance(transaction.getAccount());
         return transaction;
-    }
-
-    private String encrypt(String data) {
-        return new BCryptPasswordEncoder().encode(data);
-    }
-
-    private Account checkExistingAccount(String accountNumber, Integer checkDigit) {
-        return null;
     }
 }

@@ -49,9 +49,11 @@ public class WithdrawDTO extends TransactionDTO {
                 .id(transaction.getId())
                 .amount(transaction.getAmount())
                 .transactionDate(transaction.getTransactionDate())
-                .accountDTO(AccountDTO.fromEntity(transaction.getAccount()))
                 .status(TransactionStatus.toEnum(transaction.getStatus()).getDescription())
                 .terminalId(terminalId)
+                .cardName(cardName)
+                .cardNumber(cardNumber)
+                .accountDTO(AccountDTO.fromEntity(transaction.getAccount()))
                 .build();
     }
 }

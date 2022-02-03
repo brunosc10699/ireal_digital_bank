@@ -3,7 +3,7 @@ package com.bruno.bdb.resources;
 import com.bruno.bdb.services.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,19 +15,20 @@ public class CardResource {
 
     private final CardService cardService;
 
-    @PostMapping(value = "/activate")
+    @PatchMapping(value = "/activate")
     public ResponseEntity<Void> activate() {
         cardService.activate();
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping(value = "/confirmation")
+    @PatchMapping(value = "/confirmation")
     public ResponseEntity<Void> receiptConfirmation() {
         cardService.receiptConfirmation();
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping(value = "/send")
+//    @PreAuthorize("hasAnyRole('MANAGER')")
+    @PatchMapping(value = "/send")
     public ResponseEntity<Void> sendCard(@RequestParam(value = "card") Long cardId) {
         cardService.sendCard(cardId);
         return ResponseEntity.noContent().build();
